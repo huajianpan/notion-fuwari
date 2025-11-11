@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is **Fuwari**, a modern personal blog theme built with Astro 4.0+, focused on technical sharing and practice. It's a Chinese-language blog with extensive customization options, featuring dark/light theme support, responsive design, and a rich plugin ecosystem.
+This is **Fuwari**, a modern personal blog theme built with Astro 5.7.9+, focused on technical sharing and practice. It's a Chinese-language blog with extensive customization options, featuring dark/light theme support, responsive design, and a rich plugin ecosystem.
+
+### Configuration Guide
+A detailed configuration modification checklist is available in `配置修改清单.md` (Chinese) for users customizing their blog from the default settings.
 
 ## Essential Commands
 
@@ -112,6 +115,12 @@ Dynamic routes using Astro's file-based routing:
 
 ## Important Development Notes
 
+### Chinese Language Support
+This is a Chinese-language blog. The UI text, date formatting, and statistics labels are all in Chinese. When making changes:
+- Preserve Chinese text in UI components
+- Date formatting uses Chinese locale (`date-utils.ts`)
+- Statistics labels are configured in `statsConfig` with Chinese text ("浏览", "访客")
+
 ### Post Frontmatter Structure
 All posts require this frontmatter format:
 ```yaml
@@ -168,8 +177,22 @@ Umami analytics with custom stats display:
 - **Site URL**: `https://blog.2b2x.cn`
 - **Base path**: `/`
 - **Trailing slash**: Always enforced
-- **Image service**: Passthrough (no optimization)
+- **Image service**: Passthrough (no optimization) - forced via custom Astro patch
 - **Redirects**: `/donate` → `/sponsors`
+
+### URL Shortcuts (EdgeOne)
+The project uses EdgeOne configuration for URL shortcuts (see `edgeone.json`):
+- `/ak` - Affiliate links
+- `/kook` - Social platform
+- `/tg` - Telegram group
+- `/donate` → `/sponsors`
+- Multiple service provider redirects
+
+### Custom Features
+- **Image optimization disabled**: Custom Astro patch prevents image optimization to preserve original paths
+- **Advanced image fallback system**: Automatic CDN domain switching for failed image loads
+- **Chinese-focused date formatting**: All dates displayed in Chinese locale format
+- **Theme persistence**: User theme preferences saved to localStorage
 
 ## TypeScript Configuration
 
