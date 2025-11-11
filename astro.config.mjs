@@ -64,7 +64,12 @@ export default defineConfig({
             "fa6-solid": ["*"],
             "simple-icons": ["*"],
         },
-		}), svelte(), sitemap(),
+		}), svelte(),
+		sitemap({
+			changefreq: 'weekly',
+			priority: 0.7,
+			lastmod: new Date(),
+		}),
 	    expressiveCode({
 			themes: [expressiveCodeConfig.theme, expressiveCodeConfig.theme],
 			plugins: [
