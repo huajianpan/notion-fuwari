@@ -289,6 +289,8 @@ jobs:
 
 构建后的静态文件位于 `dist/` 目录，可部署到任何静态托管平台。
 
+**Vercel 部署提示**：在 Vercel 项目设置中添加环境变量 `NOTION_TOKEN` 和 `NOTION_DATABASE_ID`
+
 ## 🆕 新增功能
 
 ### Notion 集成（v0.0.1+）

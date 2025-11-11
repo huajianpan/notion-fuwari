@@ -23,9 +23,13 @@ import crypto from 'crypto';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 加载环境变量（优先加载 .env.local，其次 .env）
-dotenv.config({ path: '.env.local' });
-dotenv.config();
+// 加载环境变量
+// 在 Vercel 等 CI/CD 环境中，环境变量已经自动注入，无需 dotenv
+// 在本地开发时，从 .env.local 加载
+if (!process.env.VERCEL && !process.env.CI) {
+  dotenv.config({ path: '.env.local' });
+  dotenv.config();
+}
 
 // 同步模式（从命令行参数获取）
 // --mode=overwrite : 强制覆盖所有文章（默认）
