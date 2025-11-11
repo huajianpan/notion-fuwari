@@ -1,0 +1,67 @@
+name: 定时同步 Notion 文章
+
+on:
+  # 定时触发：每天北京时间 0 点（UTC 16:00）
+  schedule:
+    - cron: '0 16 * * *'
+
+  # 手动触发（可以在 GitHub Actions 页面手动运行）
+  workflow_dispatch:
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: 检出代码
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. 设置 pnpm
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      # 3. 设置 Node.js
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      # 4. 安装依赖
+      - name: 安装依赖
+        run: pnpm install
+
+      # 5. 从 Notion 同步文章
+      - name: 从 Notion 同步文章
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: pnpm sync-notion
+
+      # 6. 提交并推送更改
+      - name: 提交并推送更改
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 添加 content 目录的所有更改
+          git add src/content/
+
+          # 检查是否有更改
+          if git diff --staged --quiet; then
+            echo "📭 没有新文章需要同步"
+          else
+            # 有更改，提交并推送
+            git commit -m "chore: 自动同步 Notion 文章
+
+📝 文章已从 Notion 自动同步
+🕐 同步时间: $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')
+🤖 由 GitHub Actions 自动提交"
+            git push
+            echo "✅ 成功同步并推送新文章"
+          fi
