@@ -59,6 +59,6 @@ jobs:
             # 有更改，提交并推送
             SYNC_TIME=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')
             git commit -m "chore: 自动同步 Notion 文章" -m "📝 文章已从 Notion 自动同步" -m "🕐 同步时间: ${SYNC_TIME}" -m "🤖 由 GitHub Actions 自动提交"
-            git push
+            git push --force-with-lease origin master
             echo "✅ 成功同步并推送新文章"
           fi
