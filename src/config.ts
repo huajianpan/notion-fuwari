@@ -137,7 +137,7 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 
 export const gitHubEditConfig: GitHubEditConfig = {
 	enable: true,
-	baseUrl: "https://github.com/evepupil/my-fuwari/blob/main/src/content/posts",
+	baseUrl: "https://github.com/evepupil/notion-fuwari/blob/master/src/content/posts",
 };
 
 
