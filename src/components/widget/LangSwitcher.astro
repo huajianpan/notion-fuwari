@@ -1,9 +1,7 @@
 ---
 // 语言切换器组件
 import { Icon } from "astro-icon/components";
-import { locales, localeNames, getCurrentLocale, type Locale } from "@/i18n";
-
-const currentLocale = getCurrentLocale();
+import { locales, localeNames, type Locale } from "../../i18n";
 ---
 
 <div class="relative" id="lang-switcher">
@@ -19,27 +17,46 @@ const currentLocale = getCurrentLocale();
 		id="lang-menu"
 		class="hidden absolute right-0 top-full mt-2 py-2 w-32 rounded-lg bg-[var(--card-bg)] shadow-lg border border-[var(--line-divider)] z-50"
 	>
-		{locales.map((locale) => (
-			<button
-				class:list={[
-					"lang-option w-full px-4 py-2 text-left text-sm hover:bg-[var(--btn-plain-bg-hover)] transition",
-					locale === currentLocale && "text-[var(--primary)] font-medium"
-				]}
-				data-locale={locale}
-			>
-				{localeNames[locale]}
-			</button>
-		))}
+		<!-- 语言选项将通过 JavaScript 动态生成 -->
 	</div>
 </div>
 
-<script>
+<script is:inline>
+	// 语言配置（内联定义）
+	const locales = ['zh-CN', 'en'];
+	const localeNames = {
+		'zh-CN': '简体中文',
+		'en': 'English'
+	};
+
 	function initLangSwitcher() {
+		// 获取当前语言偏好
+		const getCurrentLocale = () => {
+			if (typeof localStorage !== 'undefined') {
+				const preferredLocale = localStorage.getItem('preferred-locale');
+				if (preferredLocale && locales.includes(preferredLocale)) {
+					return preferredLocale;
+				}
+			}
+			return 'zh-CN'; // 默认语言
+		};
+
+		const currentLocale = getCurrentLocale();
+
 		const btn = document.getElementById('lang-btn');
 		const menu = document.getElementById('lang-menu');
-		const options = document.querySelectorAll('.lang-option');
 
 		if (!btn || !menu) return;
+
+		// 动态渲染语言选项
+		menu.innerHTML = locales.map((locale) => `
+			<button
+				class="lang-option w-full px-4 py-2 text-left text-sm hover:bg-[var(--btn-plain-bg-hover)] transition ${locale === currentLocale ? 'text-[var(--primary)] font-medium' : ''}"
+				data-locale="${locale}"
+			>
+				${localeNames[locale]}
+			</button>
+		`).join('');
 
 		// 切换菜单显示
 		btn.addEventListener('click', (e) => {
@@ -58,9 +75,10 @@ const currentLocale = getCurrentLocale();
 		});
 
 		// 语言选择
+		const options = document.querySelectorAll('.lang-option');
 		options.forEach((option) => {
 			option.addEventListener('click', () => {
-				const locale = (option as HTMLElement).dataset.locale;
+				const locale = option.dataset.locale;
 				if (!locale) return;
 
 				// 保存语言偏好
@@ -74,24 +92,20 @@ const currentLocale = getCurrentLocale();
 
 				if (locale === 'zh-CN') {
 					// 切换到中文：移除语言前缀
-					// /posts/en/slug/ → /posts/slug/
 					newPath = currentPath.replace(/\/posts\/en\//, '/posts/');
 				} else {
 					// 切换到其他语言
 					if (currentPath.includes('/posts/') && !currentPath.includes('/posts/en/')) {
-						// /posts/slug/ → /posts/en/slug/
 						newPath = currentPath.replace('/posts/', `/posts/${locale}/`);
 					} else if (currentPath.includes('/posts/en/')) {
-						// 已经有语言前缀，替换
 						newPath = currentPath.replace('/posts/en/', `/posts/${locale}/`);
 					}
 				}
 
-				// 如果路径没变，可能是非文章页面，暂时只刷新
+				// 如果路径没变，刷新页面
 				if (newPath !== currentPath) {
 					window.location.href = newPath;
 				} else {
-					// 非文章页面，刷新页面（未来可以扩展支持其他页面的多语言）
 					window.location.reload();
 				}
 

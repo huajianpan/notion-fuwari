@@ -4,6 +4,10 @@ import Icon from "@iconify/svelte";
 import { url } from "@utils/url-utils.ts";
 import { onMount } from "svelte";
 
+// 接收翻译文本props
+export let searchPlaceholder = "搜索";
+export let searchPlaceholderEn = "Search";
+
 interface SearchResult {
 	url: string;
 	meta: {
@@ -111,11 +115,11 @@ onMount(async () => {
 		posts = Array.from(items).map((item) => {
 			// 尝试多种方式获取content:encoded内容
 			let content = "";
-			const contentEncoded = 
+			const contentEncoded =
 				item.getElementsByTagNameNS("*", "encoded")[0]?.textContent ||
 				item.querySelector("*|encoded")?.textContent ||
 				"";
-			
+
 			if (contentEncoded) {
 				content = contentEncoded.replace(/<[^>]*>/g, "");
 			}
@@ -130,6 +134,31 @@ onMount(async () => {
 	} catch (error) {
 		console.error("Error fetching RSS:", error);
 	}
+
+	// 监听语言切换事件
+	const updateSearchPlaceholder = () => {
+		const currentLocale = localStorage.getItem('preferred-locale') || 'zh-CN';
+		if (currentLocale === 'zh-CN') {
+			searchPlaceholder = "搜索";
+		} else {
+			searchPlaceholder = "Search";
+		}
+	};
+
+	// 初始化时更新
+	updateSearchPlaceholder();
+
+	// 监听语言变化
+	const observer = new MutationObserver((mutations) => {
+		mutations.forEach((mutation) => {
+			if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+				// 检测到DOM变化，可能是语言切换导致的刷新
+				setTimeout(updateSearchPlaceholder, 100);
+			}
+		});
+	});
+
+	observer.observe(document.body, { attributes: true, childList: true, subtree: true });
 });
 
 $: search(keywordDesktop, true);
@@ -142,7 +171,7 @@ $: search(keywordMobile, false);
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
 ">
     <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-    <input placeholder="搜索" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
+    <input placeholder={searchPlaceholder} bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
            class="transition-all pl-10 text-sm bg-transparent outline-0
          h-full w-40 active:w-60 focus:w-60 text-black/50 dark:text-white/50"
     >
@@ -164,7 +193,7 @@ top-20 left-4 md:left-[unset] right-4 shadow-2xl rounded-2xl p-2">
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
   ">
         <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-        <input placeholder="Search" bind:value={keywordMobile}
+        <input placeholder={searchPlaceholderEn} bind:value={keywordMobile}
                class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
                focus:w-60 text-black/50 dark:text-white/50"
         >

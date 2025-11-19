@@ -22,6 +22,8 @@ export const en: TranslationKeys = {
 		prevPage: "Previous",
 		nextPage: "Next",
 		pinnedPost: "Pinned",
+		noTags: "No tags",
+		page: "Page",
 	},
 
 	// Post
@@ -33,6 +35,8 @@ export const en: TranslationKeys = {
 		words: "words",
 		views: "Views",
 		visitors: "Visitors",
+		author: "Author",
+		license: "License",
 	},
 
 	// Archive
@@ -48,6 +52,13 @@ export const en: TranslationKeys = {
 		description: "The page you're looking for doesn't exist",
 		backHome: "Back Home",
 		goArchive: "Browse Archive",
+	},
+
+	// Page titles
+	page: {
+		about: "About",
+		friends: "Friends",
+		sponsors: "Sponsors",
 	},
 
 	// Stats
@@ -80,5 +91,18 @@ export const en: TranslationKeys = {
 	// License
 	license: {
 		text: "This post is licensed under {license}",
+	},
+
+	// Footer
+	footer: {
+		licensed: "licensed under",
+		license: "License",
+		rss: "RSS",
+		sitemap: "Sitemap",
+		poweredBy: "Powered by",
+		and: "and",
+		powered: "Powered",
+		codeOpenSource: "Website code",
+		isOpenSource: "is open source",
 	},
 };

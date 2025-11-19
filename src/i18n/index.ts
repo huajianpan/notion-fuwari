@@ -15,12 +15,23 @@ const translations: Record<Locale, TranslationKeys> = {
 	en: en,
 };
 
-// 获取当前语言（从配置读取）
+// 获取当前语言（优先使用用户偏好，其次从配置读取）
 export function getCurrentLocale(): Locale {
+	// 1. 优先检查用户保存的语言偏好（仅在客户端）
+	if (typeof localStorage !== 'undefined') {
+		const preferredLocale = localStorage.getItem('preferred-locale');
+		if (preferredLocale && isValidLocale(preferredLocale)) {
+			return preferredLocale as Locale;
+		}
+	}
+
+	// 2. 其次检查配置文件中的语言
 	const configLang = siteConfig.lang.replace("_", "-");
 	if (locales.includes(configLang as Locale)) {
 		return configLang as Locale;
 	}
+
+	// 3. 最后使用默认语言
 	return defaultLocale;
 }
 

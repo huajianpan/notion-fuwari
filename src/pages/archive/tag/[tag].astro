@@ -3,6 +3,9 @@ import ArchivePanel from "@components/ArchivePanel.astro";
 
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
+import { t, getCurrentLocale } from "../../../i18n";
+
+const locale = getCurrentLocale();
 
 export async function getStaticPaths() {
 	const posts = await getSortedPosts();
@@ -26,6 +29,6 @@ export async function getStaticPaths() {
 const tag = Astro.params.tag as string;
 ---
 
-<MainGridLayout title={`${tag} - 标签`} description={`归档 - ${tag}`}>
+<MainGridLayout title={`${tag} - ${t('common.tags', locale)}`} description={`${t('archive.title', locale)} - ${tag}`}>
     <ArchivePanel tags={[tag]}></ArchivePanel>
 </MainGridLayout>

@@ -4,19 +4,30 @@ import { navBarConfig, siteConfig } from "../config";
 import { LinkPresets } from "../constants/link-presets";
 import { LinkPreset, type NavBarLink } from "../types/config";
 import { url } from "../utils/url-utils";
+import { t, getCurrentLocale } from "../i18n";
 
 import Search from "./Search.svelte";
 import DisplaySettings from "./widget/DisplaySettings.svelte";
 import NavMenuPanel from "./widget/NavMenuPanel.astro";
 import LangSwitcher from "./widget/LangSwitcher.astro";
 const className = Astro.props.class;
+const locale = getCurrentLocale();
+
+// 搜索框翻译文本
+const searchPlaceholderZh = t('common.search', locale);
+const searchPlaceholderEn = 'Search';
 
 let links: NavBarLink[] = navBarConfig.links.map(
 	(item: NavBarLink | LinkPreset): NavBarLink => {
 		if (typeof item === "number") {
-			return LinkPresets[item];
+			const preset = LinkPresets[item];
+			return {
+				...preset,
+			};
 		}
-		return item;
+		return {
+			...item,
+		};
 	},
 );
 ---
@@ -32,20 +43,34 @@ let links: NavBarLink[] = navBarConfig.links.map(
             </div>
         </a>
         <div class="hidden md:flex">
-            {links.map((l) => {
-                return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
+            {(() => {
+                const keyMap = {
+                    "首页": "nav.home",
+                    "归档": "nav.archive",
+                    "关于": "nav.about",
+                    "友链": "nav.friends",
+                    "赞助": "nav.sponsors",
+                    "统计": "nav.statistics",
+                    "状态": "nav.status"
+                };
+                return links.map((l) => {
+                    const dataKey = keyMap[l.name] || l.name;
+                    return (
+                        <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
                           class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
-                >
-                    <div class="flex items-center">
-                        {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
-                    </div>
-                </a>;
-            })}
+                          data-i18n-key={dataKey}
+                        >
+                            <div class="flex items-center">
+                                {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
+                            </div>
+                        </a>
+                    );
+                });
+            })()}
         </div>
         <div class="flex">
             <!--<SearchPanel client:load>-->
-            <Search client:only="svelte"></Search>
+            <Search client:only="svelte" searchPlaceholder={searchPlaceholderZh} searchPlaceholderEn={searchPlaceholderEn}></Search>
             <LangSwitcher />
             {!siteConfig.themeColor.fixed && (
                     <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">

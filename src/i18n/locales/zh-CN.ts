@@ -20,6 +20,8 @@ export const zhCN = {
 		prevPage: "上一页",
 		nextPage: "下一页",
 		pinnedPost: "置顶",
+		noTags: "无标签",
+		page: "第",
 	},
 
 	// 文章
@@ -31,6 +33,8 @@ export const zhCN = {
 		words: "字",
 		views: "浏览",
 		visitors: "访客",
+		author: "作者",
+		license: "许可协议",
 	},
 
 	// 归档
@@ -46,6 +50,13 @@ export const zhCN = {
 		description: "您访问的页面不存在",
 		backHome: "返回首页",
 		goArchive: "文章归档",
+	},
+
+	// 页面标题
+	page: {
+		about: "关于",
+		friends: "友链",
+		sponsors: "赞助",
 	},
 
 	// 统计
@@ -78,6 +89,19 @@ export const zhCN = {
 	// 许可证
 	license: {
 		text: "本文采用 {license} 许可协议",
+	},
+
+	// 页脚
+	footer: {
+		licensed: "采用",
+		license: "许可",
+		rss: "RSS",
+		sitemap: "网站地图",
+		poweredBy: "由",
+		and: "和",
+		powered: "强力驱动",
+		codeOpenSource: "本网站代码",
+		isOpenSource: "已开源",
 	},
 };
 

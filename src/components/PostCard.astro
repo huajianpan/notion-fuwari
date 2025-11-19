@@ -7,6 +7,7 @@ import { getDir } from "../utils/url-utils";
 import PostMetadata from "./PostMeta.astro";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 import { umamiConfig, statsConfig } from "../config";
+import { t, getCurrentLocale } from "../i18n";
 
 interface Props {
 	class?: string;
@@ -32,6 +33,7 @@ const {
 	description,
 	style,
 } = Astro.props;
+const locale = getCurrentLocale();
 
 const isPinned = entry.data.pinned === true;
 const className = Astro.props.class;
@@ -53,7 +55,7 @@ const { remarkPluginFrontmatter } = await entry.render();
         ">
             {isPinned && (
                 <span class="inline-flex items-center mr-2 px-2 py-0.5 text-sm font-medium bg-[oklch(95%_0.2_var(--hue))] dark:bg-[oklch(25%_0.2_var(--hue))] text-[oklch(55%_0.2_var(--hue))] dark:text-[oklch(85%_0.2_var(--hue))] rounded">
-                    <Icon name="material-symbols:push-pin" class="mr-1 text-base" /> 置顶
+                    <Icon name="material-symbols:push-pin" class="mr-1 text-base" /> {t("common.pinnedPost", locale)}
                 </span>
             )}
             {title}
@@ -71,9 +73,9 @@ const { remarkPluginFrontmatter } = await entry.render();
 
         <!-- word count, read time and page views -->
         <div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition">
-            <div>{remarkPluginFrontmatter.words} 字</div>
+            <div>{remarkPluginFrontmatter.words} {t("post.words", locale)}</div>
             <div>|</div>
-            <div>{remarkPluginFrontmatter.minutes} 分钟</div>
+            <div>{remarkPluginFrontmatter.minutes} {t("post.minutes", locale)}</div>
             <div>|</div>
             <div>
                 <span class="text-50 text-sm font-medium" id={`page-views-${entry.slug}`}>{statsConfig.loadingText}</span>

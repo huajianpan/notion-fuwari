@@ -2,12 +2,14 @@
 
 import { getSortedPosts } from "../utils/content-utils";
 import { getPostUrlBySlug } from "../utils/url-utils";
+import { t, getCurrentLocale } from "../i18n";
 
 interface Props {
 	keyword?: string;
 	tags?: string[];
 }
 const { tags } = Astro.props;
+const locale = getCurrentLocale();
 
 let posts = await getSortedPosts();
 
@@ -65,7 +67,7 @@ function formatTag(tag: string[]) {
                     <div class="w-[15%] md:w-[10%]">
                         <div class="h-3 w-3 bg-none rounded-full outline outline-[var(--primary)] mx-auto -outline-offset-[2px] z-50 outline-3"></div>
                     </div>
-                    <div class="w-[70%] md:w-[80%] transition text-left text-50">{group.posts.length} 篇文章</div>
+                    <div class="w-[70%] md:w-[80%] transition text-left text-50">{t("archive.postsCount", locale, { count: group.posts.length })}</div>
                 </div>
                 {group.posts.map(post => (
                     <a href={getPostUrlBySlug(post.slug)}

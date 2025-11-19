@@ -2,9 +2,12 @@
 import ArchivePanel from "@components/ArchivePanel.astro";
 
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { t, getCurrentLocale } from "../../i18n";
+
+const locale = getCurrentLocale();
 ---
 
-<MainGridLayout title="归档">
+<MainGridLayout title={t("archive.title", locale)}>
     <ArchivePanel></ArchivePanel>
 </MainGridLayout>
 

@@ -5,6 +5,9 @@ import Pagination from "../components/control/Pagination.astro";
 import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
+import { t, getCurrentLocale } from "../i18n";
+
+const locale = getCurrentLocale();
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allBlogPosts = await getSortedPosts();
@@ -17,7 +20,7 @@ const { page } = Astro.props;
 const len = page.data.length;
 ---
 
-<MainGridLayout title={page.currentPage === 1 ? undefined : `第 ${page.currentPage} 页`}>
+<MainGridLayout title={page.currentPage === 1 ? undefined : `${t('common.page', locale)} ${page.currentPage}`}>
     <PostPage page={page}></PostPage>
     <Pagination class="mx-auto onload-animation" page={page} style=`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`></Pagination>
 </MainGridLayout>

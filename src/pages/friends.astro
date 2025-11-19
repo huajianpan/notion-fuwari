@@ -3,17 +3,19 @@ import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
 import type { FriendsData } from "@/types/data";
 import friendsData from "@/data/friends.json";
+import { t, getCurrentLocale } from "@/i18n";
 
 const { friends } = friendsData as FriendsData;
+const locale = getCurrentLocale();
 ---
 
-<MainGridLayout title="友链">
+<MainGridLayout title={t("page.friends", locale)}>
     <div class="card-base p-6 md:p-8">
         <div class="flex items-center gap-2 mb-6">
             <div class="h-8 w-8 rounded-lg bg-[var(--primary)] flex items-center justify-center text-white dark:text-black/70">
                 <Icon name="material-symbols:diversity-3" class="text-[1.5rem]">
             </div>
-            <h1 class="text-2xl font-bold text-black dark:text-white">友链</h1>
+            <h1 class="text-2xl font-bold text-black dark:text-white" data-i18n-page="title" data-i18n-page-key="page.friends">{t("page.friends", locale)}</h1>
         </div>
 
         <!-- 申请友链（移到最前面） -->
