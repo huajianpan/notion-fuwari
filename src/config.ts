@@ -37,13 +37,30 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 	background: {
-		enable: true, // Enable background image
+		enable: false, // Enable background image
 		src: "https://eopfapi.2b2x.cn/pic?img=ua", // Background image URL (supports HTTPS)
 		position: "center", // Background position: 'top', 'center', 'bottom'
 		size: "cover", // Background size: 'cover', 'contain', 'auto'
 		repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'
 		attachment: "fixed", // Background attachment: 'fixed', 'scroll', 'local'
 		opacity: 0.5, // Background opacity (0-1)
+	},
+	waveBackground: {
+		enable: false, // 启用 Three.js 点阵海潮背景（与 chaosBackground 二选一）
+		gridSize: 50, // 网格密度 (点阵的行列数，建议 30-60)
+		waveHeight: 15, // 波浪高度
+		waveSpeed: 0.001, // 波浪速度 (0.0001-0.01)
+		mouseInfluence: 20, // 鼠标影响范围
+		mouseStrength: 30, // 鼠标影响强度
+		particleSize: 2, // 粒子大小
+		spacing: 15, // 点之间的间距
+		opacity: 0.3, // 整体透明度 (0-1)
+	},
+	chaosBackground: {
+		enable: true, // 启用混沌理论背景（洛伦兹吸引子）- "潮思/思潮"可视化
+		particleCount: 30, // 粒子数量（建议 10-30）
+		trailLength: 400, // 轨迹长度（建议 100-300）
+		opacity: 0.6, // 整体透明度 (0-1)
 	},
 	toc: {
 		enable: true, // Display the table of contents on the right side of the post

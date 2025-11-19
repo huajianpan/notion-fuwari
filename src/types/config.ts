@@ -32,6 +32,23 @@ export type SiteConfig = {
 		attachment?: "fixed" | "scroll" | "local";
 		opacity?: number;
 	};
+	waveBackground: {
+		enable: boolean;
+		gridSize: number;
+		waveHeight: number;
+		waveSpeed: number;
+		mouseInfluence: number;
+		mouseStrength: number;
+		particleSize: number;
+		spacing: number;
+		opacity: number;
+	};
+	chaosBackground: {
+		enable: boolean;
+		particleCount: number;
+		trailLength: number;
+		opacity: number;
+	};
 	toc: {
 		enable: boolean;
 		depth: 1 | 2 | 3;

@@ -6,6 +6,8 @@ import "@fontsource/roboto/700.css";
 
 import { profileConfig, siteConfig, analyticsConfig } from "@/config";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import WaveBackground from "@components/misc/WaveBackground.astro";
+import ChaosBackground from "@components/misc/ChaosBackground.astro";
 import {
 	AUTO_MODE,
 	BANNER_HEIGHT,
@@ -447,6 +449,14 @@ const bannerOffset =
 			window.getUmamiShareData = getUmamiShareData;
 			window.clearUmamiShareCache = clearUmamiShareCache;
 		</script>
+
+{siteConfig.waveBackground.enable && (
+	<WaveBackground />
+)}
+
+{siteConfig.chaosBackground.enable && (
+	<ChaosBackground />
+)}
 
 <Analytics />
 	</body>
