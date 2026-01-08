@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getSortedPosts } from '@/utils/content-utils';
 
+export const prerender = true; // 静态生成
+
 export const GET: APIRoute = async () => {
 	const posts = await getSortedPosts();
 
