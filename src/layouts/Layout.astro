@@ -4,10 +4,11 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-import { profileConfig, siteConfig, analyticsConfig } from "@/config";
+import { profileConfig, siteConfig, analyticsConfig, aiChatConfig } from "@/config";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import WaveBackground from "@components/misc/WaveBackground.astro";
 import ChaosBackground from "@components/misc/ChaosBackground.astro";
+import AIChatWidget from "@components/AIChatWidget.svelte";
 import {
 	AUTO_MODE,
 	BANNER_HEIGHT,
@@ -463,6 +464,12 @@ const bannerOffset =
 )}
 
 <Analytics />
+
+<!-- AI 聊天窗口 -->
+{import.meta.env.PROD && aiChatConfig.enable && aiChatConfig.apiEndpoint && (
+	<AIChatWidget client:load />
+)}
+
 	</body>
 </html>
 

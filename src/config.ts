@@ -189,3 +189,13 @@ export const analyticsConfig: AnalyticsConfig = {
 		token: "15fe148e91b34f10a15652e1a74ab26c",
 	},
 };
+
+// AI 聊天配置
+export const aiChatConfig = {
+	enable: false, // 设置为 true 启用 AI 聊天功能
+	// API 端点 - 需要用户配置自己的 CF Worker 代理
+	// 示例：https://your-worker.your-subdomain.workers.dev/ai-search
+	apiEndpoint: "",
+	// 可选：自定义欢迎消息
+	welcomeMessage: "你好！我是 AI 助手，可以帮你检索博客内容。有什么问题吗？",
+};
