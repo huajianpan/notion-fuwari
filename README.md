@@ -15,6 +15,8 @@
 - 🎨 可自定义配置
 - 💬 评论系统支持
 - 📡 RSS 订阅支持
+- **📚 图书模块** - 支持长篇内容分章节阅读，带目录导航（新增）
+- **🤖 AI 助手** - 基于 Cloudflare AI Search 的智能问答，支持流式响应（新增）
 - **🔄 Notion 同步集成** - 从 Notion 一键同步文章到博客（新增）
 - **🖼️ 智能图片管理** - 自动下载并按文章分类存储图片（新增）
 - **🔗 友链管理系统** - 支持用户提交友链申请，管理员在 Notion 审核（新增）
@@ -321,6 +323,51 @@ jobs:
 - 配置 `output: "static"` + `adapter: vercel()` 支持 Serverless API（友链提交功能）
 
 ## 🆕 新增功能
+
+### 图书模块（v0.0.2+）
+
+支持长篇内容分章节组织和阅读，适合教程、翻译书籍等内容。
+
+**特性**：
+- 📖 图书列表页面（`/books/`）
+- 📑 章节目录导航
+- ⬅️➡️ 上一章/下一章快速切换
+- 📝 每章独立的 Markdown 内容
+- 🗂️ 支持自定义章节顺序
+
+**目录结构**：
+```
+src/content/books/
+└── 书籍名称/
+    ├── index.md          # 书籍介绍
+    ├── 01-chapter1.md    # 第一章
+    ├── 02-chapter2.md    # 第二章
+    └── ...
+```
+
+### AI 助手（v0.0.2+）
+
+基于 Cloudflare AI Search (AutoRAG) 的智能问答功能，可检索博客内容并回答问题。
+
+**特性**：
+- 🤖 浮动聊天窗口
+- 🌊 流式响应，实时显示回答
+- 📎 显示回答来源引用
+- 🔍 基于博客内容的语义检索
+
+**配置**：在 `src/config.ts` 中启用：
+```typescript
+export const aiChatConfig = {
+  enable: true,
+  apiEndpoint: "/api/ai-search",
+  welcomeMessage: "你好！我是 AI 助手，可以帮你检索博客内容。",
+};
+```
+
+**部署要求**：
+- Cloudflare Pages 部署
+- 配置 AI Search (AutoRAG) 并上传博客内容
+- 在 Pages Functions 中配置 AI Binding
 
 ### Notion 集成（v0.0.1+）
 
