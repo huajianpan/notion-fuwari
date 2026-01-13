@@ -187,7 +187,7 @@
 
 		<!-- 消息列表 -->
 		<div class="ai-chat-messages" bind:this={chatContainer}>
-			{#each messages as message}
+			{#each messages as message, idx}
 				<div class="ai-message ai-message-{message.role}">
 					<div class="ai-message-icon">
 						{#if message.role === 'user'}
@@ -197,7 +197,18 @@
 						{/if}
 					</div>
 					<div class="ai-message-content">
-						<div class="ai-message-text">{message.content}</div>
+						<!-- AI 消息：内容为空且正在加载时显示加载动画 -->
+						{#if message.role === 'assistant' && !message.content && loading && idx === messages.length - 1}
+							<div class="ai-message-text ai-message-loading">
+								<div class="ai-loading">
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+							</div>
+						{:else}
+							<div class="ai-message-text">{message.content}</div>
+						{/if}
 
 						<!-- 显示来源 -->
 						{#if message.sources && message.sources.length > 0}
@@ -218,21 +229,6 @@
 					</div>
 				</div>
 			{/each}
-
-			{#if loading}
-				<div class="ai-message ai-message-assistant">
-					<div class="ai-message-icon">
-						<Icon icon="material-symbols:smart-toy-outline" width="20" height="20" />
-					</div>
-					<div class="ai-message-content">
-						<div class="ai-loading">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</div>
-				</div>
-			{/if}
 		</div>
 
 		<!-- 错误提示 -->
@@ -466,7 +462,17 @@
 	.ai-loading {
 		display: flex;
 		gap: 0.25rem;
-		padding: 0.75rem;
+		padding: 0.25rem 0;
+		align-items: center;
+		justify-content: center;
+		min-height: 1.5rem;
+	}
+
+	.ai-message-loading {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		min-width: 60px;
 	}
 
 	.ai-loading span {
