@@ -85,10 +85,10 @@
 					try {
 						const data = JSON.parse(line.slice(6));
 
-						// 处理流式响应
+						// 处理流式响应 - 累加内容
 						if (data.result?.response) {
-							fullResponse = data.result.response;
-							sources = data.result.data || [];
+							fullResponse += data.result.response;
+							sources = data.result.data || sources;
 
 							// 更新消息
 							messages = messages.map((msg, idx) =>
@@ -109,9 +109,10 @@
 				try {
 					const data = JSON.parse(buffer.slice(6));
 					if (data.result?.response) {
+						fullResponse += data.result.response;
 						messages = messages.map((msg, idx) =>
 							idx === aiMessageIndex
-								? { ...msg, content: data.result.response, sources: data.result.data || [] }
+								? { ...msg, content: fullResponse, sources: data.result.data || sources }
 								: msg
 						);
 					}
