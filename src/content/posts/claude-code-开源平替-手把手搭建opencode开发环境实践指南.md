@@ -1,6 +1,6 @@
 ---
 title: 'Claude Code 开源平替：手把手搭建OpenCode开发环境实践指南'
-published: 2026-09-30T20:32:37.000Z
+published: 2026-10-01T20:48:10.215Z
 description: 'OpenCode 是一个完全免费、开源的 Claude Code 替代品。它不仅共享 Claude 的技能生态，更通过解除模型绑定，将AI编程能力从单一平台中解放出来。'
 image: ''
 tags: []
@@ -336,7 +336,7 @@ bunx oh-my-opencode install --no-tui --claude=no --copilot=no--gemini=no`
 `vi ~/.config/opencode/opencode.json`
 
 
-![v2-7592bfb9988953fb9db278925ed28840_1440w.jpg](../assets/images/claude-code-开源平替-手把手搭建opencode开发环境实践指南/image-18.jpg)
+![v2-7592bfb9988953fb9db278925ed28840_1440w.jpg](https://pica.zhimg.com/v2-7592bfb9988953fb9db278925ed28840_1440w.jpg)
 
 
 #oh-my-opencode配置
